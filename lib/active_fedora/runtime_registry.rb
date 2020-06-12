@@ -1,9 +1,7 @@
-require 'active_support/per_thread_registry'
+require 'active_support/core_ext/module/attribute_accessors_per_thread'
 
 module ActiveFedora
   class RuntimeRegistry
-    extend ActiveSupport::PerThreadRegistry
-
-    attr_accessor :solr_service, :fedora_connection
+    thread_mattr_accessor :solr_service, :fedora_connection
   end
 end
