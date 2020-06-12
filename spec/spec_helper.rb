@@ -13,7 +13,7 @@ require 'rspec'
 require 'rspec/its'
 require 'equivalent-xml/rspec_matchers'
 require 'logger'
-require 'pry' unless ENV['TRAVIS']
+require 'pry-byebug' unless ENV['CI']
 
 ActiveFedora::Base.logger = Logger.new(STDERR)
 ActiveFedora::Base.logger.level = Logger::WARN
@@ -24,7 +24,6 @@ ActiveFedora::Base.logger.level = Logger::WARN
 # HttpLogger.log_headers = true
 
 Dir[File.expand_path("../support/**/*.rb", __FILE__)].each { |f| require f }
-require 'samples/samples'
 
 $VERBOSE = nil
 
