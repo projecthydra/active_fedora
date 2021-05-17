@@ -7,7 +7,7 @@ module ActiveFedora
     # may vary depending on the klass of a relation, so we create a subclass of Relation
     # for each different klass, and the delegations are compiled into that subclass only.
 
-    BLACKLISTED_ARRAY_METHODS = [
+    NON_DELEGABLE_ARRAY_METHODS = [
       :compact!, :flatten!, :reject!, :reverse!, :rotate!, :map!,
       :shuffle!, :slice!, :sort!, :sort_by!, :delete_if,
       :keep_if, :pop, :shift, :delete_at, :select!
@@ -19,7 +19,7 @@ module ActiveFedora
     protected
 
       def array_delegable?(method)
-        Array.method_defined?(method) && BLACKLISTED_ARRAY_METHODS.exclude?(method)
+        Array.method_defined?(method) && NON_DELEGABLE_ARRAY_METHODS.exclude?(method)
       end
 
       def method_missing(method, *args, &block)
