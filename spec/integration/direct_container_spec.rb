@@ -2,6 +2,37 @@ require 'spec_helper'
 
 describe "Direct containers" do
   describe "#directly_contains" do
+
+    context "when the class is an ActiveFedora::Base"  do
+      before do
+        class Forest < ActiveFedora::Base
+          directly_contains :trees, has_member_relation: ::RDF::URI.new("http://example.com/hasTrees"), class_name: "ActiveFedora::Base"
+        end
+      end
+      after do
+        Object.send(:remove_const, :Forest)
+      end
+
+      let(:forest)  { Forest.new }
+      let(:tree)    { forest.trees.build }
+
+      context "when parent has not been saved" do
+        it "can build children" do
+          built_tree = forest.trees.build
+          expect(forest.trees).to include(built_tree)
+        end
+      end
+
+      context "when parent has been saved" do
+        before { forest.save }
+        it "can build children" do
+          built_tree = forest.trees.build
+          expect(forest.trees).to include(built_tree)
+        end
+      end
+
+    end
+
     context "when the class is ActiveFedora::File" do
       before do
         class FooHistory < ActiveFedora::Base
@@ -14,6 +45,7 @@ describe "Direct containers" do
 
       let(:file) { o.files.build }
       let(:reloaded) { FooHistory.find(o.id) }
+      let(:o) { FooHistory.new }
 
       context "with no files" do
         subject { o.files }
@@ -21,6 +53,13 @@ describe "Direct containers" do
 
         it { is_expected.to be_empty }
         it { is_expected.to eq [] }
+      end
+
+      context "when the object has not been saved" do
+        it "can build children" do
+          built_file = o.files.build
+          expect(o.files).to include(built_file)
+        end
       end
 
       context "when the object exists" do
