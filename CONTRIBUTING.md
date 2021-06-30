@@ -44,6 +44,10 @@ prevalence of racist language in discussions of predatory
 publishing](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6148600/) for
 further details.
 
+If you're working on PR for this project, create a feature branch off of `main`.
+
+Please ***do not*** create a branch called `master` for this repository or as part of your pull request; the branch will either need to be removed or renamed before it can be considered for inclusion in the code base and history of our repositories.
+
 ## Contribution Tasks
 
 * Reporting Issues
